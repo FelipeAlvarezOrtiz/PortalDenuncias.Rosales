@@ -1,0 +1,247 @@
+﻿<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        max-width: 800px;
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 4px S15px rgba(0,0,0,0.1);
+    }
+
+    .card-header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0;
+    }
+
+    .form-section-divider {
+        border-top: 2px solid #e9ecef;
+        margin: 2.5rem 0;
+    }
+    /* Estilo para el bloque de persona añadida */
+    .persona-block {
+        border: 1px solid #dee2e6;
+        border-radius: .375rem;
+        padding: 1rem;
+        position: relative;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header bg-primary text-center">
+        <h1 class="text-white">Formulario de Denuncia</h1>
+    </div>
+    <div class="card-body p-4 p-md-5">
+
+        <div class="alert alert-warning d-flex align-items-center mb-5" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-3" style="font-size: 1.5rem;"></i>
+            <div>
+                <strong>Atención:</strong> La información que entregues debe ser verídica y de buena fe. Tu denuncia será investigada de forma confidencial bajo la <strong>Ley N° 21.595</strong>. El mal uso de este canal puede tener consecuencias.
+            </div>
+        </div>
+
+        <form action="/procesar-denuncia" method="POST" enctype="multipart/form-data">
+
+            <h4 class="mb-3 text-primary">1. Sobre el Hecho Denunciado</h4>
+
+            <div class="mb-4">
+                <label for="tipoDelito" class="form-label fw-bold">Tipo de presunto delito o falta:</label>
+                <select class="form-select" id="tipoDelito" name="tipo_delito" required>
+                    <option selected disabled value="">Seleccione una opción...</option>
+                    <option value="soborno">Soborno o Cohecho</option>
+                    <option value="lavado_activos">Lavado de Activos</option>
+                    <option value="administracion_desleal">Administración Desleal</option>
+                    <option value="colusion">Colusión</option>
+                    <option value="negociacion_incompatible">Negociación Incompatible</option>
+                    <option value="corrupcion_privados">Corrupción entre Privados</option>
+                    <option value="delito_ambiental">Delito Medioambiental</option>
+                    <option value="acoso_laboral">Acoso Laboral o Sexual</option>
+                    <option value="conflicto_interes">Conflicto de Interés</option>
+                    <option value="otro">Otro tipo de falta a la ética</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="descripcionHecho" class="form-label fw-bold">Descripción detallada del hecho:</label>
+                <textarea class="form-control" id="descripcionHecho" name="descripcion" rows="6" placeholder="Sea lo más específico posible. Describa qué ocurrió, quiénes participaron, dónde, cuándo y cómo." required></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label for="fechaConocimiento" class="form-label fw-bold">¿Cuándo supo de esto?</label>
+                    <input type="date" class="form-control" id="fechaConocimiento" name="fecha_conocimiento" required>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label for="lugarOcurrencia" class="form-label fw-bold">¿Dónde ocurrió?</label>
+                    <input type="text" class="form-control" id="lugarOcurrencia" name="lugar" placeholder="Ej: Oficina, bodega, sucursal..." required>
+                </div>
+            </div>
+
+            <hr class="form-section-divider">
+            <h4 class="mb-3 text-primary">2. Personas Involucradas</h4>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">¿Puede identificar a las personas involucradas?</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="identifica_personas_radio" id="identificaSi" value="si">
+                    <label class="form-check-label" for="identificaSi">Sí</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="identifica_personas_radio" id="identificaNo" value="no" checked>
+                    <label class="form-check-label" for="identificaNo">No</label>
+                </div>
+            </div>
+
+            <div id="detallePersonasContainer" class="d-none">
+                <div id="personas-list">
+                </div>
+                <button type="button" id="add-persona-btn" class="btn btn-outline-primary mt-2"><i class="bi bi-plus-lg"></i> Añadir otra persona</button>
+            </div>
+
+
+            <hr class="form-section-divider">
+            <h4 class="mb-3 text-primary">3. Información Adicional</h4>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label for="frecuencia" class="form-label fw-bold">¿Con qué frecuencia ocurre?</label>
+                    <select class="form-select" id="frecuencia" name="frecuencia">
+                        <option selected value="unica_vez">Ocurrió una sola vez</option>
+                        <option value="esporadica">Ocurre de forma esporádica</option>
+                        <option value="recurrente">Ocurre de forma recurrente / continua</option>
+                        <option value="no_se">No lo sé</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label for="sigueOcurriendo" class="form-label fw-bold">¿La situación sigue ocurriendo?</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sigue_ocurriendo" id="sigueSi" value="si">
+                            <label class="form-check-label" for="sigueSi">Sí</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sigue_ocurriendo" id="sigueNo" value="no">
+                            <label class="form-check-label" for="sigueNo">No</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sigue_ocurriendo" id="sigueNoSe" value="no_se" checked>
+                            <label class="form-check-label" for="sigueNoSe">No lo sé</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">¿Reportó esta situación antes por otro medio?</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="reporto_antes" id="reportoSi" value="si">
+                    <label class="form-check-label" for="reportoSi">Sí</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="reporto_antes" id="reportoNo" value="no" checked>
+                    <label class="form-check-label" for="reportoNo">No</label>
+                </div>
+            </div>
+
+            <div class="mb-4 d-none" id="detalleReportePrevio">
+                <label for="detalleReporteTexto" class="form-label">Por favor, detalle a quién, cuándo y qué respuesta recibió:</label>
+                <textarea class="form-control" id="detalleReporteTexto" name="detalle_reporte_previo" rows="3"></textarea>
+            </div>
+
+            <hr class="form-section-divider">
+            <h4 class="mb-3 text-primary">4. Evidencia</h4>
+
+            <div class="mb-4">
+                <label for="adjuntarArchivos" class="form-label fw-bold">Adjuntar evidencia (opcional):</label>
+                <input class="form-control" type="file" id="adjuntarArchivos" name="archivos[]" multiple>
+                <div class="form-text">Puedes seleccionar varios archivos a la vez. Límite 10MB por archivo.</div>
+            </div>
+
+            <div class="mb-4">
+                <label for="descripcionEvidencia" class="form-label">Si adjuntaste archivos, describe brevemente qué contiene cada uno:</label>
+                <textarea class="form-control" id="descripcionEvidencia" name="descripcion_evidencia" rows="3" placeholder="Ej: 'El PDF es la factura alterada', 'En el audio se escucha la conversación...'"></textarea>
+            </div>
+
+            <div class="d-grid mt-5">
+                <button type="submit" class="btn btn-primary btn-lg">Enviar Denuncia de Forma Segura</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" asp-append-version="true">
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Detalle de personas involucradas
+            const radioIdentifica = document.querySelectorAll('input[name="identifica_personas_radio"]');
+            const detallePersonasContainer = document.getElementById('detallePersonasContainer');
+
+            radioIdentifica.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    if (this.value === 'si') {
+                        detallePersonasContainer.classList.remove('d-none');
+                        // Si no hay ninguna persona añadida, añade la primera
+                        if(document.getElementById('personas-list').childElementCount === 0) {
+                           addPersonaBlock();
+                        }
+                    } else {
+                        detallePersonasContainer.classList.add('d-none');
+                    }
+                });
+            });
+
+            // 2. Detalle de reporte previo
+            const radioReporto = document.querySelectorAll('input[name="reporto_antes"]');
+            const detalleReportePrevio = document.getElementById('detalleReportePrevio');
+
+            radioReporto.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    if (this.value === 'si') {
+                        detalleReportePrevio.classList.remove('d-none');
+                    } else {
+                        detalleReportePrevio.classList.add('d-none');
+                    }
+                });
+            });
+
+
+            // --- Lógica para añadir/eliminar bloques de personas ---
+            const addPersonaBtn = document.getElementById('add-persona-btn');
+            const personasList = document.getElementById('personas-list');
+            let personaCounter = 0;
+
+            const addPersonaBlock = () => {
+                personaCounter++;
+                const newPersonaBlock = document.createElement('div');
+                newPersonaBlock.classList.add('persona-block', 'mb-3');
+                newPersonaBlock.innerHTML = `
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.parentElement.remove()"></button>
+                    <h6 class="mb-3">Persona ${personaCounter}</h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="persona_nombre_${personaCounter}" class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="persona_nombre_${personaCounter}" name="personas[${personaCounter}][nombre]" placeholder="Nombre y Apellido">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="persona_cargo_${personaCounter}" class="form-label">Cargo:</label>
+                            <input type="text" class="form-control" id="persona_cargo_${personaCounter}" name="personas[${personaCounter}][cargo]" placeholder="Ej: Gerente, Supervisor, Externo">
+                        </div>
+                        <div class="col-12">
+                             <label for="persona_rol_${personaCounter}" class="form-label">Rol en los hechos:</label>
+                             <input type="text" class="form-control" id="persona_rol_${personaCounter}" name="personas[${personaCounter}][rol]" placeholder="¿Qué hizo esta persona?">
+                        </div>
+                    </div>
+                `;
+                personasList.appendChild(newPersonaBlock);
+            };
+
+            addPersonaBtn.addEventListener('click', addPersonaBlock);
+
+        });
+    </script>
+}

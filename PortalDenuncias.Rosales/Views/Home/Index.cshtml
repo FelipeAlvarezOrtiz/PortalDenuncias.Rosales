@@ -1,8 +1,64 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<header>
+    <div class="header-content">
+        <div class="logo-container">
+            <img src="https://rosales.cl/example/rosales_logotipo.png" alt="Logo de [Nombre de tu Empresa]">
+        </div>
+        <div class="title-container">
+            <h1>Canal de Denuncias</h1>
+            <p>Comprometidos con la integridad y la transparencia</p>
+        </div>
+    </div>
+</header>
+<main>
+    <section id="info-ley">
+        <h2>¿Qué es la Ley de Delitos Económicos (Ley N° 21.595)?</h2>
+        <p>
+            La Ley N° 21.595 moderniza y sistematiza los delitos económicos y ambientales en Chile. Establece un nuevo régimen de responsabilidad penal para las empresas, exigiéndoles un rol activo en la prevención de delitos como el soborno, la colusión, la administración desleal, entre otros.
+        </p>
+        <p>
+            Para cumplir con esta normativa, nuestra empresa ha implementado un <strong>Modelo de Prevención de Delitos</strong>, cuyo pilar fundamental es este Canal de Denuncias. Su objetivo es permitir que cualquier colaborador, proveedor o tercero pueda reportar de manera <strong>segura, anónima y confidencial</strong> cualquier conducta que pueda ser contraria a la ley o a nuestra ética corporativa.
+        </p>
+    </section>
+
+    <section id="formulario-denuncia">
+        <h2>Realizar una Denuncia</h2>
+        <p>Este es el primer paso para reportar una situación de manera responsable.</p>
+
+        <div class="terminos-container">
+            <input type="checkbox" id="terminos" name="terminos">
+            <label for="terminos">
+                He leído y acepto los <a href="/terminos-y-condiciones.html" target="_blank">Términos y Condiciones</a> del canal.
+            </label>
+        </div>
+
+        <button type="button" id="btn-ingresar" disabled>Ingresar una Nueva Denuncia</button>
+    </section>
+</main>
+<footer class="border-top footer text-muted">
+    <h2>Links de Interés</h2>
+    <ul>
+        <li><a href="https://www.bcn.cl/leychile/navegar?idNorma=1194343" target="_blank">Texto de la Ley 21.595</a></li>
+        <li><a href="https://www.fiscalianacional.cl/" target="_blank">Ministerio Público</a></li>
+        <li><a href="https://www.cgr.cl/" target="_blank">Contraloría General de la República</a></li>
+        <li><a href="/codigo-de-etica.html" target="_blank">Nuestro Código de Ética</a></li>
+    </ul>
+</footer>
+@section Scripts {
+    <script type="text/javascript" asp-append-version="true">
+        // --- Lógica para habilitar el botón ---
+        const checkboxTerminos = document.getElementById('terminos');
+        const botonIngresar = document.getElementById('btn-ingresar');
+
+        checkboxTerminos.addEventListener('change', function() {
+            botonIngresar.disabled = !this.checked;
+        });
+
+        botonIngresar.addEventListener('click', function() {
+            window.location.href = '/Home/FormularioDenuncia';
+        });
+    </script>
+}

@@ -20,3 +20,162 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f7f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1, h2 {
+    color: #1d3557;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* --- Encabezado --- (SECCIÓN MODIFICADA) */
+header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center; /* Alinea verticalmente el logo y el texto */
+    gap: 20px; /* Espacio entre el logo y el título */
+}
+
+.logo-container img {
+    max-width: 180px; /* Ancho máximo del logo */
+    height: auto; /* Mantiene la proporción */
+}
+
+.title-container {
+    text-align: left;
+}
+
+    .title-container h1 {
+        margin: 0;
+    }
+
+    .title-container p {
+        margin: 0;
+    }
+
+/* --- Responsive para el Encabezado --- */
+@media (max-width: 600px) {
+    .header-content {
+        flex-direction: column; /* Apila el logo sobre el título */
+        text-align: center;
+    }
+
+    .title-container {
+        text-align: center; /* Centra el texto en móviles */
+    }
+}
+
+
+/* --- Sección de Información de la Ley --- */
+#info-ley {
+    margin-bottom: 30px;
+}
+
+/* --- Formulario de Denuncia --- */
+#formulario-denuncia {
+    background-color: #eaf2f8;
+    border: 1px solid #c8d8e4;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+}
+
+    #formulario-denuncia h2 {
+        margin-top: 0;
+        font-size: 1.5em;
+    }
+
+.terminos-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+    .terminos-container input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+#btn-ingresar {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+    #btn-ingresar:hover {
+        background-color: #0056b3;
+    }
+
+    #btn-ingresar:disabled {
+        background-color: #cccccc;
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+/* --- Footer --- */
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    background-color: #1d3557;
+    color: #ffffff;
+    border-radius: 0 0 8px 8px;
+}
+
+    footer h2 {
+        color: #ffffff;
+        font-size: 1.2em;
+        margin-top: 0;
+    }
+
+    footer ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    footer a {
+        color: #a8d0e6;
+        font-weight: bold;
+    }

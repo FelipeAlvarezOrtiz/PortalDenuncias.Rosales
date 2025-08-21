@@ -18,7 +18,7 @@ namespace PortalDenuncias.Rosales.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult FormularioDenuncia()
         {
             return View();
         }
