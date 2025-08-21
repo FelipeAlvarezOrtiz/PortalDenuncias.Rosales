@@ -55,6 +55,6 @@ public class DenunciaViewModel
     public string? DescripcionEvidencia { get; set; }
 
     // Para recibir los archivos adjuntos
-    [Display(Name = "Adjuntar evidencia")]
+    [Display(Name = "Adjuntar evidencia (opcional)")]
     public List<IFormFile> Archivos { get; set; } = new List<IFormFile>();
 }

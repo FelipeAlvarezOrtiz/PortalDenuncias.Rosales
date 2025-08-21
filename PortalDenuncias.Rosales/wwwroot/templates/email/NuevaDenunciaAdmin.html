@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Denuncia Recibida</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #0d6efd;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+            .header h1 {
+                margin: 0;
+                font-size: 24px;
+            }
+
+        .content {
+            padding: 30px;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+            .content h2 {
+                color: #0d6efd;
+                border-bottom: 2px solid #e9ecef;
+                padding-bottom: 10px;
+                margin-top: 0;
+            }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+            .info-table td {
+                padding: 12px 0;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+                .info-table td.label {
+                    font-weight: bold;
+                    width: 40%;
+                    color: #555;
+                }
+
+        .details-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+
+            .details-section p {
+                white-space: pre-wrap; /* Mantiene los saltos de línea del textarea */
+                margin-top: 5px;
+            }
+
+        .cta-button {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 10px;
+            padding: 12px 25px;
+            background-color: #28a745;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #f4f7f9;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>Nueva Denuncia Recibida</h1>
+        </div>
+        <div class="content">
+            <h2>Resumen de la Denuncia</h2>
+            <table class="info-table">
+                <tr>
+                    <td class="label">Código de Seguimiento:</td>
+                    <td>{{CODIGO_SEGUIMIENTO}}</td>
+                </tr>
+                <tr>
+                    <td class="label">Fecha de Recepción:</td>
+                    <td>{{FECHA_RECEPCION}}</td>
+                </tr>
+                <tr>
+                    <td class="label">Tipo de Delito/Falta:</td>
+                    <td><strong>{{TIPO_DELITO}}</strong></td>
+                </tr>
+                <tr>
+                    <td class="label">Fecha de Conocimiento:</td>
+                    <td>{{FECHA_CONOCIMIENTO}}</td>
+                </tr>
+                <tr>
+                    <td class="label">Lugar de Ocurrencia:</td>
+                    <td>{{LUGAR}}</td>
+                </tr>
+            </table>
+
+            <h2>Descripción de los Hechos</h2>
+            <div class="details-section">
+                <p>{{DESCRIPCION}}</p>
+            </div>
+
+            {{SECCION_PERSONAS}}
+
+            <h2>Información Adicional</h2>
+            <table class="info-table">
+                <tr>
+                    <td class="label">Frecuencia:</td>
+                    <td>{{FRECUENCIA}}</td>
+                </tr>
+                <tr>
+                    <td class="label">¿Sigue Ocurriendo?</td>
+                    <td>{{SIGUE_OCURRIENDO}}</td>
+                </tr>
+                <tr>
+                    <td class="label">¿Se reportó antes?</td>
+                    <td>{{REPORTO_ANTES}}</td>
+                </tr>
+            </table>
+
+            {{SECCION_REPORTE_PREVIO}}
+
+            <h2>Evidencia</h2>
+            <table class="info-table">
+                <tr>
+                    <td class="label">Archivos Adjuntos:</td>
+                    <td>{{ARCHIVOS_ADJUNTOS}}</td>
+                </tr>
+            </table>
+
+            {{SECCION_DESCRIPCION_EVIDENCIA}}
+        </div>
+        <div class="footer">
+            <p>Este es un correo electrónico generado automáticamente por el Canal de Denuncias. Por favor, no responda a este mensaje.</p>
+            <p><strong>La información contenida en este correo es estrictamente confidencial.</strong></p>
+        </div>
+    </div>
+</body>
+</html>
