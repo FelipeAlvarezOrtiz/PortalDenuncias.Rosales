@@ -36,15 +36,15 @@ public class DenunciaViewModel
 
     public List<PersonaViewModel> Personas { get; set; } = new List<PersonaViewModel>();
 
-    [Required]
+    [Required(ErrorMessage = "Debe indicar este dato")]
     [Display(Name = "¿Con qué frecuencia ocurre?")]
     public string Frecuencia { get; set; }
 
-    [Required]
+    [Required (ErrorMessage = "Debe indicar si la situación sigue ocurriendo")]
     [Display(Name = "¿La situación sigue ocurriendo?")]
     public string SigueOcurriendo { get; set; }
 
-    [Required]
+    [Required (ErrorMessage = "Este dato es requerido")]
     [Display(Name = "¿Reportó esta situación antes?")]
     public string ReportoAntes { get; set; }
 

@@ -154,6 +154,7 @@
                             <option value="recurrente">Ocurre de forma recurrente / continua</option>
                             <option value="no_se">No lo sé</option>
                         </select>
+                        <span asp-validation-for="Frecuencia" class="text-danger"></span>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label asp-for="SigueOcurriendo" class="form-label fw-bold"></label>
@@ -171,6 +172,7 @@
                                 <label class="form-check-label" for="sigueNoSe">No lo sé</label>
                             </div>
                         </div>
+                        <span asp-validation-for="SigueOcurriendo" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -184,6 +186,7 @@
                         <input class="form-check-input" type="radio" asp-for="ReportoAntes" id="reportoNo" value="no" checked>
                         <label class="form-check-label" for="reportoNo">No</label>
                     </div>
+                    <span asp-validation-for="ReportoAntes" class="text-danger"></span>
                 </div>
 
                 <div class="mb-4 d-none" id="detalleReportePrevio">
@@ -285,21 +288,36 @@
             const loader = document.getElementById('loader-overlay');
             const submitButton = form.querySelector('button[type="submit"]');
 
-            form.addEventListener('submit', function(e) {
-                // Primero, valida que el formulario sea correcto del lado del cliente
-                if (!form.checkValidity()) {
+           
+        });
+
+        $(function () {
+            // 1. OBTENER LOS ELEMENTOS
+            const form = $('#denuncia-form');
+            const loader = $('#loader-overlay');
+            const submitButton = form.find('button[type="submit"]');
+
+            // 2. LÓGICA DE ENVÍO DEL FORMULARIO
+            form.on('submit', function(e) {
+
+                // ===== VERIFICACIÓN CLAVE (VERSIÓN JQUERY) =====
+                // El método .valid() ejecuta la validación de jQuery Unobtrusive.
+                // Es la forma correcta de verificar el formulario en un proyecto ASP.NET Core.
+                if (!form.valid()) {
+                    // Si el formulario no es válido, detenemos la ejecución
+                    // y dejamos que la librería muestre los mensajes de error.
                     return;
                 }
 
-                // Muestra el loader
-                loader.style.display = 'flex';
+                // Si el formulario SÍ es válido, mostramos el loader.
+                loader.css('display', 'flex');
 
-                // Deshabilita el botón para evitar doble envío
-                submitButton.disabled = true;
-                submitButton.innerHTML = `
+                // Deshabilitamos el botón
+                submitButton.prop('disabled', true);
+                submitButton.html(`
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Enviando...
-                `;
+                `);
             });
         });
     </script>
