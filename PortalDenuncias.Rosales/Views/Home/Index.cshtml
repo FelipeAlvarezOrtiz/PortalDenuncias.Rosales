@@ -5,7 +5,7 @@
 <header>
     <div class="header-content">
         <div class="logo-container">
-            <img src="https://rosales.cl/example/rosales_logotipo.png" alt="Logo de [Nombre de tu Empresa]">
+            <img src="https://rosales.cl/example/rosales_logotipo.png" alt="Logo de empresa Rosales">
         </div>
         <div class="title-container">
             <h1>Canal de Denuncias</h1>
@@ -31,34 +31,103 @@
         <div class="terminos-container">
             <input type="checkbox" id="terminos" name="terminos">
             <label for="terminos">
-                He leído y acepto los <a href="/terminos-y-condiciones.html" target="_blank">Términos y Condiciones</a> del canal.
+                He leído y acepto los
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modalTerminos">
+                    Términos y Condiciones
+                </a>
+                del canal.
             </label>
         </div>
 
         <button type="button" id="btn-ingresar" disabled>Ingresar una Nueva Denuncia</button>
     </section>
 </main>
-<footer class="border-top footer text-muted">
-    <h2>Links de Interés</h2>
-    <ul>
-        <li><a href="https://www.bcn.cl/leychile/navegar?idNorma=1194343" target="_blank">Texto de la Ley 21.595</a></li>
-        <li><a href="https://www.fiscalianacional.cl/" target="_blank">Ministerio Público</a></li>
-        <li><a href="https://www.cgr.cl/" target="_blank">Contraloría General de la República</a></li>
-        <li><a href="/codigo-de-etica.html" target="_blank">Nuestro Código de Ética</a></li>
-    </ul>
+<footer class="footer bg-light border-top text-center py-3">
+    <div class="container">
+        <div class="mb-2">
+            <a href="https://www.bcn.cl/leychile/navegar?idNorma=1195119" target="_blank" class="text-muted mx-2">Ley 21.595</a>
+            <span class="text-muted">|</span>
+            <a href="/codigo-de-etica.html" class="text-muted mx-2">Código de Ética</a>
+            <span class="text-muted">|</span>
+            <a href="https://www.fiscalianacional.cl/" target="_blank" class="text-muted mx-2">Ministerio Público</a>
+        </div>
+
+        <small class="text-muted">
+            © @DateTime.Now.Year Empresa Rosales - Todos los derechos reservados.
+        </small>
+    </div>
 </footer>
+
+<div class="modal fade" id="modalTerminos" tabindex="-1" aria-labelledby="modalTerminosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTerminosLabel">Términos y Condiciones del Canal de Denuncias</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>1. Confidencialidad y Anonimato:</strong></p>
+                <p>La empresa se compromete a proteger la identidad del denunciante que desee permanecer anónimo. No se registrarán direcciones IP, cookies de seguimiento ni metadatos que puedan comprometer su identidad. Si el denunciante decide identificarse, su información será tratada con la máxima confidencialidad, accesible únicamente por el equipo investigador autorizado.</p>
+
+                <p><strong>2. Uso del Canal:</strong></p>
+                <p>Este canal debe ser utilizado de buena fe para reportar conductas que puedan constituir un delito según la Ley N° 21.595, una falta a nuestro Código de Ética o cualquier otra irregularidad grave. El uso malicioso de este canal, la entrega de información deliberadamente falsa o la suplantación de identidad podrán acarrear sanciones legales y/o disciplinarias.</p>
+
+                <p><strong>3. Proceso de la Denuncia:</strong></p>
+                <p>Una vez enviada la denuncia, se le asignará un código de seguimiento único. Este código es su única vía para consultar el estado del caso y para que el equipo investigador pueda solicitarle información adicional de forma anónima. Es su responsabilidad guardar este código en un lugar seguro.</p>
+
+                <p><strong>4. Protección de Datos:</strong></p>
+                <p>Toda la información y los archivos adjuntos serán almacenados de forma cifrada y segura. Los datos serán tratados conforme a la legislación vigente sobre protección de datos personales y serán conservados únicamente por el tiempo necesario para la investigación y las acciones que de ella se deriven, según nuestras políticas de retención de información.</p>
+
+                <p><strong>5. Ausencia de Represalias:</strong></p>
+                <p>La empresa garantiza que no se tomará ninguna represalia contra quien denuncie de buena fe. Cualquier acto de hostigamiento o represalia contra un denunciante será considerado una falta grave y será sancionado.</p>
+
+                <p>Al hacer clic en "Aceptar y Continuar", usted declara haber leído, comprendido y aceptado los términos aquí expuestos.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnAceptarTerminos">Aceptar y Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script type="text/javascript" asp-append-version="true">
-        // --- Lógica para habilitar el botón ---
-        const checkboxTerminos = document.getElementById('terminos');
-        const botonIngresar = document.getElementById('btn-ingresar');
+        document.addEventListener('DOMContentLoaded', function () {
 
-        checkboxTerminos.addEventListener('change', function() {
-            botonIngresar.disabled = !this.checked;
-        });
+            // 1. OBTENER TODOS LOS ELEMENTOS UNA SOLA VEZ
+            const modalElement = document.getElementById('modalTerminos');
+            const checkboxTerminos = document.getElementById('terminos');
+            const btnIngresar = document.getElementById('btn-ingresar');
+            const btnAceptarTerminos = document.getElementById('btnAceptarTerminos');
 
-        botonIngresar.addEventListener('click', function() {
-            window.location.href = '/Home/FormularioDenuncia';
+            // Verificación para asegurar que todos los elementos existen
+            if (!modalElement || !checkboxTerminos || !btnIngresar || !btnAceptarTerminos) {
+                console.error("Error: No se encontraron todos los elementos necesarios en el DOM.");
+                return;
+            }
+
+            // 2. INICIALIZAR EL MODAL DE BOOTSTRAP
+            const modal = new bootstrap.Modal(modalElement);
+
+            // 3. LÓGICA PARA EL BOTÓN "ACEPTAR Y CONTINUAR" DEL MODAL
+            btnAceptarTerminos.addEventListener('click', function () {
+                checkboxTerminos.checked = true; // Marcar el checkbox
+                btnIngresar.disabled = false;    // Habilitar el botón principal
+                modal.hide();                    // Cerrar el modal
+            });
+
+            // 4. LÓGICA PARA EL CHECKBOX (CUANDO SE INTERACTÚA DIRECTAMENTE)
+            checkboxTerminos.addEventListener('change', function() {
+                // Habilita o deshabilita el botón principal según el estado del checkbox
+                btnIngresar.disabled = !this.checked;
+            });
+
+            // 5. LÓGICA PARA EL BOTÓN PRINCIPAL "INGRESAR DENUNCIA"
+            btnIngresar.addEventListener('click', function() {
+                // Redirige al usuario al formulario de denuncia
+                window.location.href = '/Denuncia/Crear'; // Ajusta esta URL a tu controlador y acción correctos
+            });
         });
     </script>
 }

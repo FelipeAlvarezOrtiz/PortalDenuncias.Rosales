@@ -45,9 +45,6 @@ namespace PortalDenuncias.Rosales.Controllers
             try
             {
                 var cuerpoCorreo = await GenerarCuerpoCorreoAsync(model, codigoSeguimiento);
-
-                // --- Lógica para enviar el correo ---
-                // Aquí deberías usar un servicio de correo real (SendGrid, MailKit, etc.)
                 var archivosTuples = new List<Tuple<byte[], string>>();
                 foreach (var modelArchivo in model.Archivos)
                 {
@@ -56,7 +53,7 @@ namespace PortalDenuncias.Rosales.Controllers
                         continue;
                     archivosTuples.Add(new Tuple<byte[], string>(resultExtraccion.Value.FileBytes,resultExtraccion.Value.FileName));
                 }
-                // await _emailSender.SendEmailAsync("admin@tuempresa.com", "Nueva Denuncia Recibida", cuerpoCorreo);
+
                 await _mailer.EnviarEmailConAdjuntos([
                         "me@felipealvarez.dev"
                     ],
@@ -64,7 +61,7 @@ namespace PortalDenuncias.Rosales.Controllers
                     cuerpoCorreo,
                     archivosTuples
                     );
-                Console.WriteLine("Correo enviado a admin@tuempresa.com"); // Simulación para depuración
+                _logger.LogInformation("Correo enviado");
             }
             catch (Exception ex)
             {
@@ -161,23 +158,16 @@ namespace PortalDenuncias.Rosales.Controllers
         /// <returns>Una tupla con el array de bytes y el nombre completo del archivo.</returns>
         public async Task<(byte[] FileBytes, string FileName)?> ExtraerArchivoInfoAsync(IFormFile? archivo)
         {
-            // 1. Validar que el archivo no sea nulo o esté vacío
             if (archivo == null || archivo.Length == 0)
             {
                 return null;
             }
+            var nombreCompleto = archivo.FileName;
 
-            // 2. Extraer el nombre completo directamente de la propiedad FileName
-            string nombreCompleto = archivo.FileName;
-
-            // 3. Extraer los bytes del archivo
             byte[] fileBytes;
             using (var memoryStream = new MemoryStream())
             {
-                // Copiamos el contenido del archivo a un stream en memoria
                 await archivo.CopyToAsync(memoryStream);
-
-                // Convertimos el stream en memoria a un array de bytes
                 fileBytes = memoryStream.ToArray();
             }
 
