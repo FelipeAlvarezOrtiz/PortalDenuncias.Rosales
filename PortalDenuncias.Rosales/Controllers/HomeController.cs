@@ -55,7 +55,7 @@ namespace PortalDenuncias.Rosales.Controllers
                 }
 
                 await _mailer.EnviarEmailConAdjuntos([
-                        "me@felipealvarez.dev"
+                        "denunciasdelitoseconomicos@rosales.cl"
                     ],
                     "Nueva denuncia ingresada",
                     cuerpoCorreo,
