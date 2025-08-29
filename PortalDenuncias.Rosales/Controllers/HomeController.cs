@@ -86,6 +86,15 @@ namespace PortalDenuncias.Rosales.Controllers
             return View();
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult NotFound(int? statusCode = null)
+        {
+            if (statusCode.HasValue && statusCode.Value == 404)
+            {
+                return View("NotFound");
+            }
+            return RedirectToAction("Index");
+        }
         private async Task<string> GenerarCuerpoCorreoAsync(DenunciaViewModel model, string codigoSeguimiento)
         {
             // Ruta al template HTML

@@ -22,6 +22,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseStatusCodePagesWithReExecute("/Home/NotFound/{0}");
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
