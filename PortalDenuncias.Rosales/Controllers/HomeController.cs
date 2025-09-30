@@ -155,7 +155,8 @@ namespace PortalDenuncias.Rosales.Controllers
                 denuncianteHtml.Append("<div class='details-section' style='margin-bottom:15px;'>");
                 denuncianteHtml.Append($"<p><b>Nombre:</b> {model.DenuncianteNombre}<br>");
                 denuncianteHtml.Append($"<b>Correo:</b> {model.DenuncianteEmail}<br>");
-                denuncianteHtml.Append($"<b>Teléfono:</b> {model.DenuncianteTelefono ?? "No especificado"}</p>");
+                denuncianteHtml.Append($"<b>Telefono:</b> {model.DenuncianteTelefono ?? "No especificado"}</p>");
+                denuncianteHtml.Append($"<b>Relación con la empresa:</b> {model.DenuncianteRelacion ?? "No especificado"}</p>");
                 denuncianteHtml.Append("</div>");
 
                 // Asumiendo que tienes un placeholder como {{SECCION_DENUNCIANTE}} en tu template
