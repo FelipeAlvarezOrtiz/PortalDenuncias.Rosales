@@ -15,6 +15,22 @@ public class PersonaViewModel
 
 public class DenunciaViewModel
 {
+    [Required]
+    public string TipoIdentificacion { get; set; } = "anonima"; // "anonima" o "identificada"
+
+    [Display(Name = "Nombre Completo")]
+    public string? DenuncianteNombre { get; set; }
+
+    [EmailAddress(ErrorMessage = "El formato del correo no es válido.")]
+    [Display(Name = "Correo Electrónico de Contacto")]
+    public string? DenuncianteEmail { get; set; }
+
+    [Display(Name = "Teléfono de Contacto (Opcional)")]
+    public string? DenuncianteTelefono { get; set; }
+    
+    [Display(Name = "Relación con la empresa")]
+    public string? DenuncianteRelacion { get; set; }
+
     [Required(ErrorMessage = "Debe seleccionar un tipo de delito.")]
     [Display(Name = "Tipo de presunto delito o falta")]
     public string TipoDelito { get; set; }

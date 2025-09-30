@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using PortalDenuncias.Rosales.Interfaces;
 using PortalDenuncias.Rosales.Models;
 using System.Diagnostics;
 using System.Text;
-using PortalDenuncias.Rosales.Interfaces;
 
 namespace PortalDenuncias.Rosales.Controllers
 {
@@ -157,6 +160,23 @@ namespace PortalDenuncias.Rosales.Controllers
                 template = template.Replace("{{SECCION_DESCRIPCION_EVIDENCIA}}", "");
             }
 
+            if (model.TipoIdentificacion == "identificada")
+            {
+                var denuncianteHtml = new StringBuilder("<h2>Datos del Denunciante</h2>");
+                denuncianteHtml.Append("<div class='details-section' style='margin-bottom:15px;'>");
+                denuncianteHtml.Append($"<p><b>Nombre:</b> {model.DenuncianteNombre}<br>");
+                denuncianteHtml.Append($"<b>Correo:</b> {model.DenuncianteEmail}<br>");
+                denuncianteHtml.Append($"<b>Teléfono:</b> {model.DenuncianteTelefono ?? "No especificado"}</p>");
+                denuncianteHtml.Append("</div>");
+
+                // Asumiendo que tienes un placeholder como {{SECCION_DENUNCIANTE}} en tu template
+                template = template.Replace("{{SECCION_DENUNCIANTE}}", denuncianteHtml.ToString());
+            }
+            else
+            {
+                template = template.Replace("{{SECCION_DENUNCIANTE}}", "<i>El denunciante ha decidido permanecer anónimo.</i>");
+            }
+
             return template;
         }
 
@@ -181,6 +201,21 @@ namespace PortalDenuncias.Rosales.Controllers
             }
 
             return (fileBytes, nombreCompleto);
+        }
+
+        [EnableRateLimiting("downloadLimiter")]
+        public IActionResult DescargarCodigoEtica()
+        {
+            var subfolder = "documentos";
+            var fileName = "codigo_etica_rosales.pdf";
+
+            var filePath = Path.Combine(_env.WebRootPath, subfolder, fileName);
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("El archivo no fue encontrado.");
+            }
+
+            return PhysicalFile(filePath, "application/octet-stream", fileName);
         }
     }
 }

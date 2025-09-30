@@ -20,7 +20,7 @@
             La Ley N° 21.595 moderniza y sistematiza los delitos económicos y ambientales en Chile. Establece un nuevo régimen de responsabilidad penal para las empresas, exigiéndoles un rol activo en la prevención de delitos como el soborno, la colusión, la administración desleal, entre otros.
         </p>
         <p>
-            Para cumplir con esta normativa, nuestra empresa ha implementado un <strong>Modelo de Prevención de Delitos</strong>, cuyo pilar fundamental es este Canal de Denuncias. Su objetivo es permitir que cualquier colaborador, proveedor o tercero pueda reportar de manera <strong>segura, anónima y confidencial</strong> cualquier conducta que pueda ser contraria a la ley o a nuestra ética corporativa.
+            Para cumplir con esta normativa y reafirmar nuestro compromiso con el comportamiento ético, nuestra empresa ha implementado un Modelo de Prevención de Delitos, cuya herramienta principal es este <strong>Canal de Denuncias</strong>. Su objetivo es permitir que cualquier colaborador, proveedor o tercero pueda reportar de <strong>manera segura, anónima y confidencial</strong> cualquier conducta que pueda ser contraria a la ley o a nuestra ética corporativa.
         </p>
     </section>
 
@@ -47,9 +47,7 @@
         <div class="mb-2">
             <a href="https://www.bcn.cl/leychile/navegar?idNorma=1195119" target="_blank" class="text-muted mx-2">Ley 21.595</a>
             <span class="text-muted">|</span>
-            <a href="/codigo-de-etica.html" class="text-muted mx-2">Código de Ética</a>
-            <span class="text-muted">|</span>
-            <a href="https://www.fiscalianacional.cl/" target="_blank" class="text-muted mx-2">Ministerio Público</a>
+            <a asp-action="DescargarCodigoEtica" asp-controller="Home" class="text-muted mx-2">Código de Ética</a>
         </div>
 
         <small class="text-muted">
@@ -95,38 +93,30 @@
     <script type="text/javascript" asp-append-version="true">
         document.addEventListener('DOMContentLoaded', function () {
 
-            // 1. OBTENER TODOS LOS ELEMENTOS UNA SOLA VEZ
             const modalElement = document.getElementById('modalTerminos');
             const checkboxTerminos = document.getElementById('terminos');
             const btnIngresar = document.getElementById('btn-ingresar');
             const btnAceptarTerminos = document.getElementById('btnAceptarTerminos');
 
-            // Verificación para asegurar que todos los elementos existen
             if (!modalElement || !checkboxTerminos || !btnIngresar || !btnAceptarTerminos) {
                 console.error("Error: No se encontraron todos los elementos necesarios en el DOM.");
                 return;
             }
 
-            // 2. INICIALIZAR EL MODAL DE BOOTSTRAP
             const modal = new bootstrap.Modal(modalElement);
 
-            // 3. LÓGICA PARA EL BOTÓN "ACEPTAR Y CONTINUAR" DEL MODAL
             btnAceptarTerminos.addEventListener('click', function () {
-                checkboxTerminos.checked = true; // Marcar el checkbox
-                btnIngresar.disabled = false;    // Habilitar el botón principal
-                modal.hide();                    // Cerrar el modal
+                checkboxTerminos.checked = true;
+                btnIngresar.disabled = false;
+                modal.hide();
             });
 
-            // 4. LÓGICA PARA EL CHECKBOX (CUANDO SE INTERACTÚA DIRECTAMENTE)
             checkboxTerminos.addEventListener('change', function() {
-                // Habilita o deshabilita el botón principal según el estado del checkbox
                 btnIngresar.disabled = !this.checked;
             });
 
-            // 5. LÓGICA PARA EL BOTÓN PRINCIPAL "INGRESAR DENUNCIA"
             btnIngresar.addEventListener('click', function() {
-                // Redirige al usuario al formulario de denuncia
-                window.location.href = '/Home/FormularioDenuncia'; // Ajusta esta URL a tu controlador y acción correctos
+                window.location.href = '/Home/FormularioDenuncia';
             });
         });
     </script>

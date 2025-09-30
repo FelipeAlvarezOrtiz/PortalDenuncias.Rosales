@@ -81,8 +81,59 @@
                 </div>
                 @Html.AntiForgeryToken()
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                
+                
+                <h4 class="mb-3 text-primary">1. Modalidad de la Denuncia</h4>
+                <div class="mb-4 p-3 border rounded bg-light">
+                    <p class="fw-bold mb-2">¿Cómo deseas realizar tu denuncia?</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="TipoIdentificacion" id="tipoAnonima" value="anonima" checked>
+                        <label class="form-check-label" for="tipoAnonima">
+                            <strong>Anónima:</strong> No se registrarán tus datos personales.
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="TipoIdentificacion" id="tipoIdentificada" value="identificada">
+                        <label class="form-check-label" for="tipoIdentificada">
+                            <strong>Identificada:</strong> Proporcionarás tus datos para que podamos contactarte si es necesario.
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="datosDenuncianteContainer" class="d-none">
+                    <div class="p-3 border rounded bg-light-subtle mb-4">
+                        <h5 class="text-primary mb-3">Tus Datos de Contacto</h5>
+                        <div class="mb-3">
+                            <label asp-for="DenuncianteNombre" class="form-label fw-bold"></label>
+                            <input asp-for="DenuncianteNombre" class="form-control" />
+                            <span asp-validation-for="DenuncianteNombre" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DenuncianteEmail" class="form-label fw-bold"></label>
+                            <input asp-for="DenuncianteEmail" class="form-control" type="email"/>
+                            <span asp-validation-for="DenuncianteEmail" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DenuncianteTelefono" class="form-label fw-bold"></label>
+                            <input asp-for="DenuncianteTelefono" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DenuncianteRelacion" class="form-label fw-bold"></label>
+                            <select asp-for="DenuncianteRelacion" class="form-select">
+                                <option selected disabled value="">Seleccione una opción...</option>
+                                <option value="Colaborador">Colaborador</option>
+                                <option value="Proveedor">Proveedor</option>
+                                <option value="Cliente">Cliente</option>
+                                <option value="Tercero">Tercero (Otro)</option>
+                            </select>
+                            <span asp-validation-for="DenuncianteRelacion" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
 
-                <h4 class="mb-3 text-primary">1. Sobre el Hecho Denunciado</h4>
+                <hr class="form-section-divider">
+
+                <h4 class="mb-3 text-primary">2. Sobre el Hecho Denunciado</h4>
 
                 <div class="mb-4">
                     <label asp-for="TipoDelito" class="form-label fw-bold"></label>
@@ -122,7 +173,7 @@
                 </div>
 
                 <hr class="form-section-divider">
-                <h4 class="mb-3 text-primary">2. Personas Involucradas</h4>
+                <h4 class="mb-3 text-primary">3. Personas Involucradas</h4>
 
                 <div class="mb-4">
                     <label class="form-label fw-bold">¿Puede identificar a las personas involucradas?</label>
@@ -143,7 +194,7 @@
                 </div>
 
                 <hr class="form-section-divider">
-                <h4 class="mb-3 text-primary">3. Información Adicional</h4>
+                <h4 class="mb-3 text-primary">4. Información Adicional</h4>
 
                 <div class="row">
                     <div class="col-md-6 mb-4">
@@ -212,6 +263,26 @@
                     <button type="submit" class="btn btn-primary btn-lg">Enviar Denuncia de Forma Segura</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalIdentificacion" tabindex="-1" aria-labelledby="modalIdentificacionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalIdentificacionLabel">Consentimiento para Identificación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Al continuar, confirmas que deseas realizar esta denuncia de forma identificada.</p>
+                <p>Aceptas y autorizas a la empresa <strong>Rosales</strong> a utilizar tus datos de contacto (nombre, correo electrónico y/o teléfono) con el único fin de comunicarse contigo para solicitar información adicional, aclarar detalles o informarte sobre el progreso de la investigación de tu denuncia.</p>
+                <p>Tus datos serán tratados con la máxima confidencialidad y solo serán accesibles para el personal autorizado a cargo de la investigación.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCancelarIdentificacion">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnAceptarIdentificacion">Aceptar y Continuar</button>
+            </div>
         </div>
     </div>
 </div>
@@ -288,7 +359,65 @@
             const loader = document.getElementById('loader-overlay');
             const submitButton = form.querySelector('button[type="submit"]');
 
-           
+
+            const tipoIdentificacionRadios = document.querySelectorAll('input[name="TipoIdentificacion"]');
+            const datosDenuncianteContainer = document.getElementById('datosDenuncianteContainer');
+            const inputsDenunciante = datosDenuncianteContainer.querySelectorAll('input');
+            const radioAnonima = document.getElementById('tipoAnonima');
+
+            // Inicializamos el Modal de Bootstrap
+            const modalElement = document.getElementById('modalIdentificacion');
+            const modalIdentificacion = new bootstrap.Modal(modalElement);
+
+            const btnAceptarIdentificacion = document.getElementById('btnAceptarIdentificacion');
+            const btnCancelarIdentificacion = document.getElementById('btnCancelarIdentificacion');
+
+            tipoIdentificacionRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'identificada') {
+                        // Si se selecciona "Identificada", mostramos el modal
+                        modalIdentificacion.show();
+                    } else {
+                        // Si se selecciona "Anónima", ocultamos los campos
+                        ocultarCamposIdentificacion();
+                    }
+                });
+            });
+
+            btnAceptarIdentificacion.addEventListener('click', function() {
+                // Si el usuario acepta en el modal, mostramos los campos
+                mostrarCamposIdentificacion();
+                modalIdentificacion.hide();
+            });
+
+            // Si el usuario cierra el modal con la 'X' o el botón cancelar
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                // Verificamos si los campos no están visibles, en ese caso revertimos a "Anónima"
+                if (datosDenuncianteContainer.classList.contains('d-none')) {
+                    radioAnonima.checked = true;
+                }
+            });
+
+
+            function mostrarCamposIdentificacion() {
+                datosDenuncianteContainer.classList.remove('d-none');
+                // Hacemos los campos de nombre y correo requeridos dinámicamente
+                document.getElementById('DenuncianteNombre').required = true;
+                document.getElementById('DenuncianteEmail').required = true;
+                document.getElementById('DenuncianteRelacion').required = true;
+            }
+
+            function ocultarCamposIdentificacion() {
+                datosDenuncianteContainer.classList.add('d-none');
+                // Quitamos el 'required' para que el formulario se pueda enviar anónimamente
+                document.getElementById('DenuncianteNombre').required = false;
+                document.getElementById('DenuncianteEmail').required = false;
+                document.getElementById('DenuncianteRelacion').required = false;
+                 // Limpiamos los valores por si el usuario se arrepiente
+                inputsDenunciante.forEach(input => input.value = '');
+                document.getElementById('DenuncianteRelacion').value = '';
+            }
+
         });
 
         $(function () {
@@ -299,17 +428,10 @@
 
             // 2. LÓGICA DE ENVÍO DEL FORMULARIO
             form.on('submit', function(e) {
-
-                // ===== VERIFICACIÓN CLAVE (VERSIÓN JQUERY) =====
-                // El método .valid() ejecuta la validación de jQuery Unobtrusive.
-                // Es la forma correcta de verificar el formulario en un proyecto ASP.NET Core.
                 if (!form.valid()) {
-                    // Si el formulario no es válido, detenemos la ejecución
-                    // y dejamos que la librería muestre los mensajes de error.
                     return;
                 }
 
-                // Si el formulario SÍ es válido, mostramos el loader.
                 loader.css('display', 'flex');
 
                 // Deshabilitamos el botón
