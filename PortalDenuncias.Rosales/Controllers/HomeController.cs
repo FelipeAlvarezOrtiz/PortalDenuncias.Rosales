@@ -149,17 +149,6 @@ namespace PortalDenuncias.Rosales.Controllers
                 template = template.Replace("{{SECCION_REPORTE_PREVIO}}", "");
             }
 
-            // Sección de Descripción de Evidencia
-            if (model.Archivos.Any() && !string.IsNullOrWhiteSpace(model.DescripcionEvidencia))
-            {
-                string descEvidenciaHtml = $"<h2>Descripción de la Evidencia</h2><div class='details-section'><p>{model.DescripcionEvidencia}</p></div>";
-                template = template.Replace("{{SECCION_DESCRIPCION_EVIDENCIA}}", descEvidenciaHtml);
-            }
-            else
-            {
-                template = template.Replace("{{SECCION_DESCRIPCION_EVIDENCIA}}", "");
-            }
-
             if (model.TipoIdentificacion == "identificada")
             {
                 var denuncianteHtml = new StringBuilder("<h2>Datos del Denunciante</h2>");
@@ -176,6 +165,19 @@ namespace PortalDenuncias.Rosales.Controllers
             {
                 template = template.Replace("{{SECCION_DENUNCIANTE}}", "<i>El denunciante ha decidido permanecer anónimo.</i>");
             }
+
+            // Sección de Descripción de Evidencia
+            if (model.Archivos.Any() && !string.IsNullOrWhiteSpace(model.DescripcionEvidencia))
+            {
+                string descEvidenciaHtml = $"<h2>Descripción de la Evidencia</h2><div class='details-section'><p>{model.DescripcionEvidencia}</p></div>";
+                template = template.Replace("{{SECCION_DESCRIPCION_EVIDENCIA}}", descEvidenciaHtml);
+            }
+            else
+            {
+                template = template.Replace("{{SECCION_DESCRIPCION_EVIDENCIA}}", "");
+            }
+
+            
 
             return template;
         }

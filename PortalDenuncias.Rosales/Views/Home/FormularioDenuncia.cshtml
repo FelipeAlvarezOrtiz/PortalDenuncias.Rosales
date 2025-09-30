@@ -326,7 +326,6 @@
             const personasList = document.getElementById('personas-list');
 
             const addPersonaBlock = () => {
-                // El contador se basa en cuántos elementos ya existen para evitar índices repetidos si se borra uno
                 const index = personasList.children.length;
 
                 const newPersonaBlock = document.createElement('div');
@@ -375,10 +374,8 @@
             tipoIdentificacionRadios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     if (this.value === 'identificada') {
-                        // Si se selecciona "Identificada", mostramos el modal
                         modalIdentificacion.show();
                     } else {
-                        // Si se selecciona "Anónima", ocultamos los campos
                         ocultarCamposIdentificacion();
                     }
                 });
@@ -431,10 +428,7 @@
                 if (!form.valid()) {
                     return;
                 }
-
                 loader.css('display', 'flex');
-
-                // Deshabilitamos el botón
                 submitButton.prop('disabled', true);
                 submitButton.html(`
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
